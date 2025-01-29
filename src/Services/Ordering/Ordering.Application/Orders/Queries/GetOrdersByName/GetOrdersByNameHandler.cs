@@ -1,8 +1,7 @@
 ﻿using BuildingBlocks.CQRS;
 using Microsoft.EntityFrameworkCore;
 using Ordering.Application.Data;
-using Ordering.Application.Dtos;
-using Ordering.Domain.Models;
+using Ordering.Application.Extensions;
 
 namespace Ordering.Application.Orders.Queries.GetOrdersByName
 {
@@ -17,14 +16,7 @@ namespace Ordering.Application.Orders.Queries.GetOrdersByName
                 .OrderBy(o => o.OrderName)
                 .ToListAsync(cancellationToken);
 
-            var orderDtos = ProjectToOrderDto(orders);
-
-            return new GetOrdersByNameResult(orderDtos);
-        }
-
-        private List<OrderDto> ProjectToOrderDto(List<Order> orders)
-        {
-            return [];
+            return new GetOrdersByNameResult(orders.ToOrderDtoList());
         }
     }
 }
